@@ -21,17 +21,11 @@ namespace gerenciamentoapirest.Controllers
         [Authorize(Roles = "Administrador")]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        public override async Task<ActionResult> GetAll(int page = 1, int pageSize = 10)
-        {            
-            return await base.GetAll(page, pageSize);
-        }
+        public override async Task<ActionResult> GetAll(int page = 1, int pageSize = 10) => await base.GetAll(page, pageSize);
 
         [Authorize]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public override async Task<ActionResult> GetById(int id)
-        {
-            return await base.GetById(id);
-        }
+        public override async Task<ActionResult> GetById(int id) => await base.GetById(id);
 
         [Authorize(Roles = "Administrador")]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -55,10 +49,7 @@ namespace gerenciamentoapirest.Controllers
         [Authorize(Roles = "Administrador")]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        public override async Task<ActionResult> Delete(int id)
-        {
-            return await base.Delete(id);
-        }
+        public override async Task<ActionResult> Delete(int id) => await base.Delete(id);
 
         [HttpPost("register")]
         [AllowAnonymous]

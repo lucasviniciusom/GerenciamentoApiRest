@@ -30,7 +30,8 @@ namespace gerenciamentoapirest.Models
 
         [Required]
         public DateTime AtualizadoEm { get; set; }  // Data de última atualização da tarefa
-
+        public DateTime? DataInicio { get; internal set; }
+        public DateTime? DataFim { get; internal set; }
     }
 
     public enum StatusTarefa

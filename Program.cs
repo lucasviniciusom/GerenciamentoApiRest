@@ -8,6 +8,12 @@ using System.Text;
 using gerenciamentoapirest.Filters;
 using gerenciamentoapirest.Repositories;
 using gerenciamentoapirest.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
+
+
+
+
 
 namespace gerenciamentoapirest
 {
@@ -85,6 +91,24 @@ namespace gerenciamentoapirest
             }
 
             app.Run();
+
+            builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+            })
+            .AddCookie()
+            .AddGoogle(options =>
+            {
+                IConfigurationSection googleAuthNSection =
+                    builder.Configuration.GetSection("GoogleCalendar");
+
+                options.ClientId = googleAuthNSection["683841244503-d5rn3jertf9cbdoa6elk6rqgvm3mh16p.apps.googleusercontent.com"];
+                options.ClientSecret = googleAuthNSection["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"];
+                options.Scope.Add(Google.Apis.Calendar.v3.CalendarService.Scope.Calendar);
+                options.SaveTokens = true;
+            });
         }
     }
+
 }
