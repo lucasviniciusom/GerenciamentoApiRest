@@ -1,4 +1,3 @@
-
 using gerenciamentoapirest.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -36,6 +35,17 @@ namespace gerenciamentoapirest
                     };
                 });
 
+            // CONFIGURACAO DO CORS
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAllOrigins", builder =>
+                {
+                    builder.AllowAnyOrigin()
+                           .AllowAnyMethod()
+                           .AllowAnyHeader();
+                });
+            });
+
             services.AddControllers()
                 .AddJsonOptions(options =>
                 {
@@ -59,11 +69,13 @@ namespace gerenciamentoapirest
                 options.OperationFilter<AuthorizeCheckOperationFilter>();
             });
 
-            // ADICIONA OS SERVICOS
+            // ADICIONA OS SERVIÇOS
             builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
             builder.Services.AddScoped<IUsuarioService, UsuarioService>();
             builder.Services.AddScoped<ITarefaRepository, TarefaRepository>();
             builder.Services.AddScoped<ITarefaService, TarefaService>();
+            builder.Services.AddScoped<IProjetoService, ProjetoService>();
+            builder.Services.AddScoped<IProjetoRepository, ProjetoRepository>();
 
             var app = builder.Build();
 
@@ -72,12 +84,15 @@ namespace gerenciamentoapirest
 
             app.UseHttpsRedirection();
 
+            // Habilita o CORS
+            app.UseCors("AllowAllOrigins");
+
             app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllers();
 
-            // EXECUTA OS MIGFRATIONS NO BANCO DE DADOS
+            // EXECUTA OS MIGRAÇÕES NO BANCO DE DADOS
             using (var scope = app.Services.CreateScope())
             {
                 var dbContext = scope.ServiceProvider.GetRequiredService<ApiDbContext>();
