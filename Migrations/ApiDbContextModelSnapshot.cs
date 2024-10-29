@@ -22,7 +22,7 @@ namespace gerenciamentoapirest.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("gerenciamentoapirest.Models.Tarefa", b =>
+            modelBuilder.Entity("gerenciamentoapirest.Models.Projeto", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -30,8 +30,35 @@ namespace gerenciamentoapirest.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("AtualizadoEm")
+                    b.Property<DateTime?>("DataFim")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("DataInicio")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Descricao")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Projeto");
+                });
+
+            modelBuilder.Entity("gerenciamentoapirest.Models.Tarefa", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CriadoEm")
                         .HasColumnType("timestamp with time zone");
@@ -46,6 +73,9 @@ namespace gerenciamentoapirest.Migrations
                     b.Property<int>("Prioridade")
                         .HasColumnType("integer");
 
+                    b.Property<int>("ProjetoId")
+                        .HasColumnType("integer");
+
                     b.Property<int>("Status")
                         .HasColumnType("integer");
 
@@ -56,12 +86,11 @@ namespace gerenciamentoapirest.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("UsuarioAtribuido")
-                        .HasColumnType("integer");
-
                     b.HasKey("Id");
 
-                    b.ToTable("Tarefas");
+                    b.HasIndex("ProjetoId");
+
+                    b.ToTable("Tarefa");
                 });
 
             modelBuilder.Entity("gerenciamentoapirest.Models.Usuario", b =>
@@ -103,7 +132,7 @@ namespace gerenciamentoapirest.Migrations
                             Email = "admin@email.com.br",
                             Nome = "Administrator",
                             Perfil = 0,
-                            Senha = "$2a$11$VatQWwdR6H44YnSAtdBMNu37UiHXGF8Zpr009fudUbBE5G.t9jJfO"
+                            Senha = "$2a$11$l.glnO09ZLLv6sCFx.RNZ.4yv8jRELpQUb8Hw1K8tQSPpQyZkrV72"
                         },
                         new
                         {
@@ -111,8 +140,19 @@ namespace gerenciamentoapirest.Migrations
                             Email = "cliente@email.com.br",
                             Nome = "Cliente",
                             Perfil = 1,
-                            Senha = "$2a$11$b0Y59GmRt6CckZcpvW0UJO0LktvXM3W4pi8.2Ow7H9WrLq/maV0Y2"
+                            Senha = "$2a$11$ljXVyBwwQwyEOwBmVam9OePOoyNQgxjYS0PVcfTYfLYzTThdR9Rv2"
                         });
+                });
+
+            modelBuilder.Entity("gerenciamentoapirest.Models.Tarefa", b =>
+                {
+                    b.HasOne("gerenciamentoapirest.Models.Projeto", "Projeto")
+                        .WithMany()
+                        .HasForeignKey("ProjetoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Projeto");
                 });
 #pragma warning restore 612, 618
         }

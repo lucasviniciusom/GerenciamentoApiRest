@@ -1,7 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace gerenciamentoapirest.Models
 {
+
+    [Table("Tarefas")]
     public class Tarefa: BaseEntity 
     {
         [Required]
@@ -20,16 +23,19 @@ namespace gerenciamentoapirest.Models
         public StatusTarefa Status { get; set; }
 
         [Required]
-        public int UsuarioAtribuido { get; set; }  // Id do usuário atribuído à tarefa 
-
-        [Required]
         public DateTime DataVencimento { get; set; }  // Data de vencimento da tarefa 
 
         [Required]
         public DateTime CriadoEm { get; set; }  // Data de criação da tarefa
 
+
         [Required]
-        public DateTime AtualizadoEm { get; set; }  // Data de última atualização da tarefa
+        public int ProjetoId { get; set; }
+
+
+        public Projeto Projeto { get; set; }
+
+
 
     }
 
