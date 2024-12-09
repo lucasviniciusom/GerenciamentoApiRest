@@ -3,12 +3,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace gerenciamentoapirest.Models
 {
-
-    [Table("Projeto")]
-    public class Projeto: BaseEntity
+    [Table("Projetos")]
+    public class Projeto : BaseEntity
     {
         [Key]
-       public int Id { get; set; }
+        public int Id { get; set; }
 
         [Required]
         public string Nome { get; set; } // Nome do Projeto
@@ -24,8 +23,7 @@ namespace gerenciamentoapirest.Models
         public StatusProjeto Status { get; set; }
 
         // Relacionamento com a classe Tarefa
-      
-
+        public ICollection<Tarefa> Tarefas { get; set; }  // Um Projeto pode ter várias Tarefas
     }
 
     public enum StatusProjeto

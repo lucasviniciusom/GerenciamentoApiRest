@@ -3,12 +3,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace gerenciamentoapirest.Models
 {
-
     [Table("Tarefas")]
-    public class Tarefa: BaseEntity 
+    public class Tarefa : BaseEntity
     {
-        [Required]
-        public int TarefaId { get; set; }  // Identificador único da tarefa
+        [Key]
+        public int Id { get; set; }  // Identificador único da tarefa
 
         [Required]
         public string Titulo { get; set; }  // Título da tarefa
@@ -28,20 +27,15 @@ namespace gerenciamentoapirest.Models
         [Required]
         public DateTime CriadoEm { get; set; }  // Data de criação da tarefa
 
-
         [Required]
-        public int ProjetoId { get; set; }
+        public int ProjetoId { get; set; } // Chave estrangeira
 
-
-        public Projeto Projeto { get; set; }
-
-
-
+        public Projeto Projeto { get; set; }  // Relacionamento com o Projeto
     }
 
     public enum StatusTarefa
     {
-        Não_iniciada,
+        Nao_iniciada,
         Em_andamento,
         Finalizada
     }
@@ -49,7 +43,7 @@ namespace gerenciamentoapirest.Models
     public enum PrioridadeTarefa
     {
         Baixa,
-        Média,
+        Media,
         Alta
     }
 }

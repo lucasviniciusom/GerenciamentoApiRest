@@ -49,7 +49,7 @@ namespace gerenciamentoapirest.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Projeto");
+                    b.ToTable("Projetos");
                 });
 
             modelBuilder.Entity("gerenciamentoapirest.Models.Tarefa", b =>
@@ -79,9 +79,6 @@ namespace gerenciamentoapirest.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("integer");
 
-                    b.Property<int>("TarefaId")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Titulo")
                         .IsRequired()
                         .HasColumnType("text");
@@ -90,7 +87,7 @@ namespace gerenciamentoapirest.Migrations
 
                     b.HasIndex("ProjetoId");
 
-                    b.ToTable("Tarefa");
+                    b.ToTable("Tarefas");
                 });
 
             modelBuilder.Entity("gerenciamentoapirest.Models.Usuario", b =>
@@ -132,7 +129,7 @@ namespace gerenciamentoapirest.Migrations
                             Email = "admin@email.com.br",
                             Nome = "Administrator",
                             Perfil = 0,
-                            Senha = "$2a$11$l.glnO09ZLLv6sCFx.RNZ.4yv8jRELpQUb8Hw1K8tQSPpQyZkrV72"
+                            Senha = "$2a$11$xmC.Zj7UfBBO.874GP3eVOWA.CzdqwXk3VSS2TcNu49X1DM95xVd6"
                         },
                         new
                         {
@@ -140,19 +137,24 @@ namespace gerenciamentoapirest.Migrations
                             Email = "cliente@email.com.br",
                             Nome = "Cliente",
                             Perfil = 1,
-                            Senha = "$2a$11$ljXVyBwwQwyEOwBmVam9OePOoyNQgxjYS0PVcfTYfLYzTThdR9Rv2"
+                            Senha = "$2a$11$Nz32ttBhU33jHbi0fE421O3mofVy.G4aoJSbOXq9imanMbls16Z3m"
                         });
                 });
 
             modelBuilder.Entity("gerenciamentoapirest.Models.Tarefa", b =>
                 {
                     b.HasOne("gerenciamentoapirest.Models.Projeto", "Projeto")
-                        .WithMany()
+                        .WithMany("Tarefas")
                         .HasForeignKey("ProjetoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Projeto");
+                });
+
+            modelBuilder.Entity("gerenciamentoapirest.Models.Projeto", b =>
+                {
+                    b.Navigation("Tarefas");
                 });
 #pragma warning restore 612, 618
         }
